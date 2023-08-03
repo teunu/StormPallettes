@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Stormworks_Pallettes_Manager
 {
-    class PalletteCategory
+    public class PalletteCategory
     {
         public string name;
         public string description;
         public string author;
 
-        public bool active;
+        public bool visible = true;
 
         public List<string> explicit_sorting = new List<string>();
         public List<string> prefix_sorting = new List<string>();
@@ -20,6 +20,21 @@ namespace Stormworks_Pallettes_Manager
         {
             name = _name;
             author = "Program";
+        }
+
+        public delegate void ChangeCategory();
+        public ChangeCategory OnCategoryChanged;
+
+        public void ToggleCategoryVisibility()
+        {
+            visible = !visible;
+            OnCategoryChanged?.Invoke();
+        }
+
+        public void SetCategoryVisibility(bool set)
+        {
+            visible = set;
+            OnCategoryChanged?.Invoke();
         }
 
         public bool MatchAny(string file) { return MatchPrefix(file) || MatchContents(file) || MatchExplicit(file); }

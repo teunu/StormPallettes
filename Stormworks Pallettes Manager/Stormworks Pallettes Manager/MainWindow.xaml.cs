@@ -17,13 +17,17 @@ using System.IO;
 
 namespace Stormworks_Pallettes_Manager
 {
+    public static class Data
+    {
+        public static List<PalletteCategory> loaded_categories;
+        public static List<DefinitionEntry> loaded_defs;
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<PalletteCategory> loaded_categories;
-        List<DefinitionEntry> loaded_defs;
 
         string root = @"C:\Program Files (x86)\Steam\steamapps\common\Stormworks\rom\data\definitions";
 
@@ -31,31 +35,29 @@ namespace Stormworks_Pallettes_Manager
         {
             InitializeComponent();
 
-            loaded_categories = new List<PalletteCategory>();
+            Data.loaded_categories = new List<PalletteCategory>();
 
-            loaded_categories.Add(new PalletteCategory("Connectors"));
-            loaded_categories[0].prefix_sorting.Add("connector");
-            loaded_categories.Add(new PalletteCategory("Buttons"));
-            loaded_categories[1].prefix_sorting.Add("button");
+            Data.loaded_categories.Add(new PalletteCategory("Connectors"));
+            Data.loaded_categories[0].prefix_sorting.Add("connector");
+            Data.loaded_categories.Add(new PalletteCategory("Buttons"));
+            Data.loaded_categories[1].prefix_sorting.Add("button");
+            Data.loaded_categories.Add(new PalletteCategory("Modular Engines"));
+            Data.loaded_categories[2].prefix_sorting.Add("modular");
 
-            loaded_defs = new List<DefinitionEntry>();
+            Data.loaded_defs = new List<DefinitionEntry>();
 
         }
 
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
-            loaded_defs.Clear();
+            Data.loaded_defs.Clear();
 
             StackPanel viewer = (StackPanel)FindName("ViewerContainer");
             viewer.Children.Clear();
 
-            foreach (PalletteCategory cat in loaded_categories)
+            for (int i = 0; i < Data.loaded_categories.Count; i ++)
             {
-                CategoryLabel label = new CategoryLabel();
-                TextBlock label_name = (TextBlock)label.FindName("Cat_Name");
-                label_name.Text = cat.name;
-                TextBlock label_auth = (TextBlock)label.FindName("Author");
-                label_auth.Text = cat.author;
+                CategoryLabel label = new CategoryLabel(i);
 
                 viewer.Children.Add(label);
             }
@@ -65,15 +67,15 @@ namespace Stormworks_Pallettes_Manager
             foreach (string file in files)
             {
                 DefinitionEntry candidate = new DefinitionEntry(file);
-                for(int i = 0; i < loaded_categories.Count; i++)
+                for(int i = 0; i < Data.loaded_categories.Count; i++)
                 {
-                    if (loaded_categories[i].MatchAny(file.Substring(file.IndexOf("definitions")+12))) 
+                    if (Data.loaded_categories[i].MatchAny(file.Substring(file.IndexOf("definitions")+12))) 
                     {
-                        candidate.categories.Add(i);
+                        candidate.SetCategory(i);
                     }
                 }
 
-                loaded_defs.Add(candidate);
+                Data.loaded_defs.Add(candidate);
 
                 foreach(int c in candidate.categories)
                 {
@@ -85,12 +87,11 @@ namespace Stormworks_Pallettes_Manager
 
                     panel.Children.Add(block);
                 }
-
             }
             
 
 
-            Console.WriteLine(loaded_defs.Count);
+            Console.WriteLine(Data.loaded_defs.Count);
         }
     }
 }

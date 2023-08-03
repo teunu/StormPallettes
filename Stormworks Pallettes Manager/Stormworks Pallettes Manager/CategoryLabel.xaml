@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Stormworks_Pallettes_Manager"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="400">
+             d:DesignHeight="100" d:DesignWidth="460">
     <Grid Background="#FF29B1FF" Margin="0,10,0,50">
         <Grid.RowDefinitions>
             <RowDefinition Height= "20" />
@@ -13,6 +13,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Name="Cat_Name" Text="CATEGORY NAME" FontSize="16" FontWeight="Bold" Margin="10,0,0,0"/>
         <TextBlock Grid.Row="1" x:Name="Author" Text="AUTHOR" FontSize="12" FontWeight="Normal" FontStyle="Italic" Margin="10,0,0,0"/>
+        <Button x:Name="Visibility" Margin="352,10,10,10" Grid.RowSpan="2" Click="Visibility_Click">O</Button>
         <StackPanel x:Name="Contents" Margin="0,20,0,-49" Grid.Row="1"/>
     </Grid>
 </UserControl>
