@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
-
+using System.Drawing;
 
 namespace Stormworks_Pallettes_Manager
 {
@@ -24,6 +24,68 @@ namespace Stormworks_Pallettes_Manager
         public static List<DefinitionEntry> loaded_defs;
     }
 
+    public static class DefaultPallettes
+    {
+        public static PalletteCategory deprecated
+        {
+            get
+            {
+                var value = new PalletteCategory("V Deprecated Blocks");
+                value.default_visible = false;
+                value.display_color = ColorTranslator.FromHtml("#249ED6");
+                value.explicit_sorting = new List<string> {
+                    "torque_gearbox.xml",
+                    "fluid_filter.xml",
+                    "gate_torque_add.xml",
+                    "gate_torque_multimeter.xml",
+                    "passenger_seat.xml",
+                    "radar_dish.xml",
+                    "radar_huge.xml",
+                    "radar_large.xml",
+                    "radar_sonar_small.xml",
+                    "radar_sonar.xml",
+                    "radar.xml",
+                    "rx_huge.xml",
+                    "rx_large.xml",
+                    "rx_med.xml",
+                    "rx_small.xml",
+                    "torque_gearbox2.xml",
+                    "water_hose.xml",
+                    "water_outlet.xml",
+                    "winch_a.xml",
+                    "winch_electric.xml",
+                    "winch_huge_a.xml",
+                    "winch_large_a.xml",
+                    "gate_train_junction.xml"
+                };
+                return value;
+            }
+        }
+        public static PalletteCategory weapons_dlc
+        {
+            get
+            {
+                var value = new PalletteCategory("V Weapons Dlc");
+                value.default_visible = true;
+                value.display_color = ColorTranslator.FromHtml("#3085E6");
+                value.explicit_sorting = new List<string> {
+                    "inventory_equipment_rifle.xml",
+                    "inventory_equipment_rifle_ammo.xml",
+                    "inventory_equipment_pistol.xml",
+                    "inventory_equipment_pistol_ammo.xml",
+                    "inventory_equipment_c4.xml",
+                    "inventory_equipment_c4_detonator.xml",
+                };
+                value.prefix_sorting = new List<string> {
+                    "gun_",
+                    "warhead_"
+                };
+                return value;
+            }
+        }
+
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -31,9 +93,12 @@ namespace Stormworks_Pallettes_Manager
     {
         public static Settings settings;
 
+        public static MainWindow instance;
+
         public MainWindow()
         {
             InitializeComponent();
+            instance = this;
 
             //Check if settings can be loaded, if not create it
             if (Settings.Load(out settings))
@@ -42,15 +107,30 @@ namespace Stormworks_Pallettes_Manager
                 {
                     //Pop up a box saying "we've not found an install folder"
 
+                    //Pop up the "Please put Directory" prompt
+                    Window askpath = new PopupSetPaths();
+                    askpath.Show();
+                    return;
                 }
+                LateInitialize();
             }
             else
             {
                 settings = new Settings();
 
                 //Pop up the "Please put Directory" prompt
-            }
+                Window askpath = new PopupSetPaths();
+                askpath.Show();
 
+                //Pop up the "likely first time, please add"
+                Window askpop = new PopupDefaultPopulation("It might be that you're opening this tool for the first time. Do you want to automatically add the default pallettes?");
+                askpop.Show();
+                return;
+            }
+        }
+
+        public void LateInitialize()
+        {
             Data.loaded_defs = new List<DefinitionEntry>();
 
             Data.loaded_categories = new List<PalletteCategory>(PalletteCategory.LoadAll());
@@ -62,10 +142,12 @@ namespace Stormworks_Pallettes_Manager
             else
             {
                 //Ask if the program should populate with defaults?
+                Window w = new PopupDefaultPopulation("");
+                w.Show();
             }
         }
 
-        private void RefreshView()
+        public void RefreshView()
         {
             Data.loaded_defs.Clear();
 

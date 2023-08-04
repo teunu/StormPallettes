@@ -98,7 +98,10 @@ namespace Stormworks_Pallettes_Manager
 
         public static PalletteCategory[] LoadAll()
         {
-            string[] files = Directory.GetFiles(Reference.pallette_path);
+            string[] files;
+            if (Directory.Exists(Reference.pallette_path))
+                files = Directory.GetFiles(Reference.pallette_path);
+            else return new PalletteCategory[0];
 
             List<PalletteCategory> loaded = new List<PalletteCategory>();
 

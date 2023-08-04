@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Stormworks_Pallettes_Manager</RootNamespace>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
     <None Remove="resources\icons\eye-slash.svg" />
     <None Remove="resources\icons\eye.png" />
     <None Remove="resources\icons\pencil.png" />
+    <None Remove="resources\icons\stormpalettes.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +22,14 @@
     <Resource Include="resources\icons\eye-slash.png" />
     <Resource Include="resources\icons\eye.png" />
     <Resource Include="resources\icons\pencil.png" />
+    <Resource Include="resources\icons\stormpalettes.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

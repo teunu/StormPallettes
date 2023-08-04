@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stormworks_Pallettes_Manager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="460" Width="380" ResizeMode="NoResize" WindowStyle="ToolWindow">
+        Title="SW Pallette Manager" Height="460" Width="380" ResizeMode="NoResize" WindowStyle="ToolWindow" Icon="/resources/icons/stormpalettes.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="77*"/>
