@@ -7,4 +7,19 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="resources\icons\eye-low-vision.png" />
+    <None Remove="resources\icons\eye-slash.png" />
+    <None Remove="resources\icons\eye-slash.svg" />
+    <None Remove="resources\icons\eye.png" />
+    <None Remove="resources\icons\pencil.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\icons\eye-low-vision.png" />
+    <Resource Include="resources\icons\eye-slash.png" />
+    <Resource Include="resources\icons\eye.png" />
+    <Resource Include="resources\icons\pencil.png" />
+  </ItemGroup>
+
 </Project>

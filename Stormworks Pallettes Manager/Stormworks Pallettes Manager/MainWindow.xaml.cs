@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace Stormworks_Pallettes_Manager
@@ -28,70 +29,116 @@ namespace Stormworks_Pallettes_Manager
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        string root = @"C:\Program Files (x86)\Steam\steamapps\common\Stormworks\rom\data\definitions";
+        public static Settings settings;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            Data.loaded_categories = new List<PalletteCategory>();
+            //Check if settings can be loaded, if not create it
+            if (Settings.Load(out settings))
+            {
+                if (settings.sw_install_folder == null || !System.IO.File.Exists(settings.sw_install_folder+ @"\stormworks.exe"))
+                {
+                    //Pop up a box saying "we've not found an install folder"
 
-            Data.loaded_categories.Add(new PalletteCategory("Connectors"));
-            Data.loaded_categories[0].prefix_sorting.Add("connector");
-            Data.loaded_categories.Add(new PalletteCategory("Buttons"));
-            Data.loaded_categories[1].prefix_sorting.Add("button");
-            Data.loaded_categories.Add(new PalletteCategory("Modular Engines"));
-            Data.loaded_categories[2].prefix_sorting.Add("modular");
+                }
+            }
+            else
+            {
+                settings = new Settings();
+
+                //Pop up the "Please put Directory" prompt
+            }
 
             Data.loaded_defs = new List<DefinitionEntry>();
 
+            Data.loaded_categories = new List<PalletteCategory>(PalletteCategory.LoadAll());
+            if (Data.loaded_categories.Count > 0)
+            {
+                //Refresh
+                RefreshView();
+            }
+            else
+            {
+                //Ask if the program should populate with defaults?
+            }
         }
 
-        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
+        private void RefreshView()
         {
             Data.loaded_defs.Clear();
 
             StackPanel viewer = (StackPanel)FindName("ViewerContainer");
             viewer.Children.Clear();
 
-            for (int i = 0; i < Data.loaded_categories.Count; i ++)
+            for (int i = 0; i < Data.loaded_categories.Count; i++)
             {
                 CategoryLabel label = new CategoryLabel(i);
 
                 viewer.Children.Add(label);
             }
-            
-            
-            string[] files = Directory.GetFiles(root);
+
+            string[] files = Directory.GetFiles(Reference.definitions_path);
             foreach (string file in files)
             {
                 DefinitionEntry candidate = new DefinitionEntry(file);
-                for(int i = 0; i < Data.loaded_categories.Count; i++)
+                for (int i = 0; i < Data.loaded_categories.Count; i++)
                 {
-                    if (Data.loaded_categories[i].MatchAny(file.Substring(file.IndexOf("definitions")+12))) 
+                    if (Data.loaded_categories[i].MatchAny(file.Substring(file.IndexOf("definitions") + 12)))
                     {
                         candidate.SetCategory(i);
                     }
                 }
-
-                Data.loaded_defs.Add(candidate);
-
-                foreach(int c in candidate.categories)
-                {
-                    TextBlock block = new TextBlock();
-                    block.Text = file.Substring(file.IndexOf("definitions"));
-
-                    CategoryLabel parent = (CategoryLabel)viewer.Children[c];
-                    StackPanel panel = (StackPanel)parent.FindName("Contents");
-
-                    panel.Children.Add(block);
-                }
             }
-            
+        }
 
+        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshView();
+        }
+    
+        private void btn_OpenSettings(object sender, RoutedEventArgs e)
+        {
+            var p = new ProcessStartInfo(@"Settings.xml")
+            {
+                UseShellExecute = true
+            };
+            Process.Start(p);
+        }
 
-            Console.WriteLine(Data.loaded_defs.Count);
+        private void btn_ResetDefaults(object sender, RoutedEventArgs e)
+        {
+            foreach(PalletteCategory cat in Data.loaded_categories)
+            {
+                cat.SetCategoryVisibility(cat.default_visible);
+            }
+        }
+
+        private void btn_Git(object sender, RoutedEventArgs e)
+        {
+            var p = new ProcessStartInfo()
+            {
+                FileName = "https://github.com/teunu/StormPallettes",
+                UseShellExecute = true
+            };
+            Process.Start(p);
+        }
+
+        private void btn_Portfolio(object sender, RoutedEventArgs e)
+        {
+            var p = new ProcessStartInfo()
+            {
+                FileName = "https://teunu.com/about",
+                UseShellExecute = true
+            };
+            Process.Start(p);
+        }
+
+        private void btn_OpenCategoryFolder(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(Reference.pallette_path))
+                Process.Start("explorer.exe", Reference.pallette_path);
         }
     }
 }

@@ -5,24 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stormworks_Pallettes_Manager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="460" Width="460" ResizeMode="NoResize">
+        Title="MainWindow" Height="460" Width="380" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="77*"/>
+            <ColumnDefinition Width="383*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="2" Content="Categories:"/>
-        <Button x:Name="btn_Save" Margin="365,10,25,30" Content="Save"/>
-        <Button x:Name="btn_Load" Margin="282,10,108,30" Content="Load"/>
-        <Button x:Name="btn_Refresh" Margin="10,10,368,5" Content="Refresh" Click="btn_Refresh_Click"/>
+        <Grid x:Name="Top_Bar_Grid" Height="30" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.ColumnSpan="2">
+            <ComboBox HorizontalAlignment="Left" Margin="8,3,0,0"  VerticalAlignment="Top" Width="73" Background="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" SelectedIndex="1">
+                <RibbonButton x:Name="OpenSettings" Label="Settings" Content="Program" Click="btn_OpenSettings"/>
+                <RibbonButton x:Name="OpenCategory" Label="Open Category Folder" Click="btn_OpenCategoryFolder"/>
+                <Separator/>
+                <RibbonButton x:Name="ResetDefault" Label="Reset to Defaults"/>
+                <Separator/>
+                <RibbonButton x:Name="SendGit" Label="Git" Click="btn_Git"/>
+                <RibbonButton x:Name="SendPortfolio" Label="Portfolio" Click="btn_Portfolio"/>
+            </ComboBox>
+        </Grid>
 
 
-        <ScrollViewer Name="Viewer" Grid.Row="1" HorizontalScrollBarVisibility="Auto" Margin="0,32,0,0">
-            <StackPanel Name="ViewerContainer" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-2,0,0,0">
-
-
-            </StackPanel>
+        <ScrollViewer x:Name="Viewer" HorizontalScrollBarVisibility="Auto" Margin="0,30,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <StackPanel x:Name="ViewerContainer" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-2,0,0,0"/>
         </ScrollViewer>
     </Grid>
 </Window>
