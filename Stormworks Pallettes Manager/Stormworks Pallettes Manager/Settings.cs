@@ -23,7 +23,12 @@ namespace Stormworks_Pallettes_Manager
 
         public static bool Load(out Settings set)
         {
-            string file = File.ReadAllText(@"Settings.xml");
+            set = null;
+            string file;
+            if (File.Exists(@"Settings.xml"))
+                file = File.ReadAllText(@"Settings.xml");
+            else return false;
+
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
             using (TextReader reader = new StringReader(file))
             {

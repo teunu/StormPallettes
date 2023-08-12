@@ -75,6 +75,13 @@ namespace Stormworks_Pallettes_Manager
             if (save_name == null)
                 save_name = data.name.ToLower().Replace(' ', '_');
 
+            //Create a file if it's empty. I guess kinda cursed to create-open-close-open-write-close, but I'm in a rush and this works well enough.
+            if (!File.Exists(Reference.pallette_path + @"\" + save_name + ".xml"))
+            {
+                FileStream f = File.Create(Reference.pallette_path + @"\" + save_name + ".xml");
+                f.Close();
+            }
+
             using (var writer = new StreamWriter(Reference.pallette_path + @"\" + save_name + ".xml"))
             {
                 PCSerializeWrapper candidate = new PCSerializeWrapper(data.name, data.description, data.author, data.display_color, data.visible, data.default_visible,

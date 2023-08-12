@@ -5,32 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stormworks_Pallettes_Manager"
         mc:Ignorable="d"
-        Title="SW Pallette Manager" Height="460" Width="380" ResizeMode="NoResize" WindowStyle="ToolWindow" Icon="/resources/icons/stormpalettes.png">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="77*"/>
-            <ColumnDefinition Width="383*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        Title="SW Pallette Manager" Width="380" MinHeight="120" MinWidth="380" MaxHeight="600" MaxWidth="380" ResizeMode="CanResize" WindowStyle="ToolWindow" Icon="/resources/icons/stormpalettes.png">
+    <Grid x:Name="Main" GotFocus="Main_GotFocus">
+        <DockPanel Grid.ColumnSpan="2" Margin="0,0,0,30" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}">
+                <MenuItem Header="Program">
+                    <MenuItem Header="Open Settings XML" Click="btn_OpenSettings"/>
+                    <MenuItem Header="Open Category Folder" Click="btn_OpenCategoryFolder"/>
+                    <Separator/>
+                    <MenuItem Header="Reset Pallette Visibility (defaults)" Click="btn_ResetDefaults" />
+                    <Separator/>
+                    <MenuItem Header="GIT repository" Click="btn_Git" />
+                    <MenuItem Header="My Portfolio" Click="btn_Portfolio"/>
+                </MenuItem>
+                <MenuItem Header="Refresh" Click="btn_Refresh_Click" />
+            </Menu>
+        </DockPanel>
 
-        <Grid x:Name="Top_Bar_Grid" Height="30" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.ColumnSpan="2">
-            <ComboBox HorizontalAlignment="Left" Margin="8,3,0,0"  VerticalAlignment="Top" Width="73" Background="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" SelectedIndex="1">
-                <RibbonButton x:Name="OpenSettings" Label="Settings" Content="Program" Click="btn_OpenSettings"/>
-                <RibbonButton x:Name="OpenCategory" Label="Open Category Folder" Click="btn_OpenCategoryFolder"/>
-                <Separator/>
-                <RibbonButton x:Name="ResetDefault" Label="Reset to Defaults"/>
-                <Separator/>
-                <RibbonButton x:Name="SendGit" Label="Git" Click="btn_Git"/>
-                <RibbonButton x:Name="SendPortfolio" Label="Portfolio" Click="btn_Portfolio"/>
-            </ComboBox>
-        </Grid>
-
-
-        <ScrollViewer x:Name="Viewer" HorizontalScrollBarVisibility="Auto" Margin="0,30,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
-            <StackPanel x:Name="ViewerContainer" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-2,0,0,0"/>
+        <ScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0" MinHeight="120" MaxHeight="600" Foreground="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}">
+            <StackPanel x:Name="ViewerContainer" VerticalAlignment="Top" MinHeight="120" MaxHeight="600" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         </ScrollViewer>
     </Grid>
 </Window>

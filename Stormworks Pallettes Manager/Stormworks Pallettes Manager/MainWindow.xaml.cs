@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using System.Drawing;
+using System.Windows.Forms;
+using System.Runtime.CompilerServices;
 
 namespace Stormworks_Pallettes_Manager
 {
@@ -22,68 +24,6 @@ namespace Stormworks_Pallettes_Manager
     {
         public static List<PalletteCategory> loaded_categories;
         public static List<DefinitionEntry> loaded_defs;
-    }
-
-    public static class DefaultPallettes
-    {
-        public static PalletteCategory deprecated
-        {
-            get
-            {
-                var value = new PalletteCategory("V Deprecated Blocks");
-                value.default_visible = false;
-                value.display_color = ColorTranslator.FromHtml("#249ED6");
-                value.explicit_sorting = new List<string> {
-                    "torque_gearbox.xml",
-                    "fluid_filter.xml",
-                    "gate_torque_add.xml",
-                    "gate_torque_multimeter.xml",
-                    "passenger_seat.xml",
-                    "radar_dish.xml",
-                    "radar_huge.xml",
-                    "radar_large.xml",
-                    "radar_sonar_small.xml",
-                    "radar_sonar.xml",
-                    "radar.xml",
-                    "rx_huge.xml",
-                    "rx_large.xml",
-                    "rx_med.xml",
-                    "rx_small.xml",
-                    "torque_gearbox2.xml",
-                    "water_hose.xml",
-                    "water_outlet.xml",
-                    "winch_a.xml",
-                    "winch_electric.xml",
-                    "winch_huge_a.xml",
-                    "winch_large_a.xml",
-                    "gate_train_junction.xml"
-                };
-                return value;
-            }
-        }
-        public static PalletteCategory weapons_dlc
-        {
-            get
-            {
-                var value = new PalletteCategory("V Weapons Dlc");
-                value.default_visible = true;
-                value.display_color = ColorTranslator.FromHtml("#3085E6");
-                value.explicit_sorting = new List<string> {
-                    "inventory_equipment_rifle.xml",
-                    "inventory_equipment_rifle_ammo.xml",
-                    "inventory_equipment_pistol.xml",
-                    "inventory_equipment_pistol_ammo.xml",
-                    "inventory_equipment_c4.xml",
-                    "inventory_equipment_c4_detonator.xml",
-                };
-                value.prefix_sorting = new List<string> {
-                    "gun_",
-                    "warhead_"
-                };
-                return value;
-            }
-        }
-
     }
 
     /// <summary>
@@ -111,8 +51,9 @@ namespace Stormworks_Pallettes_Manager
                     Window askpath = new PopupSetPaths();
                     askpath.Show();
                     return;
-                }
-                LateInitialize();
+                } 
+                else
+                    RefreshData();
             }
             else
             {
@@ -121,15 +62,10 @@ namespace Stormworks_Pallettes_Manager
                 //Pop up the "Please put Directory" prompt
                 Window askpath = new PopupSetPaths();
                 askpath.Show();
-
-                //Pop up the "likely first time, please add"
-                Window askpop = new PopupDefaultPopulation("It might be that you're opening this tool for the first time. Do you want to automatically add the default pallettes?");
-                askpop.Show();
-                return;
             }
         }
 
-        public void LateInitialize()
+        public void RefreshData()
         {
             Data.loaded_defs = new List<DefinitionEntry>();
 
@@ -221,6 +157,11 @@ namespace Stormworks_Pallettes_Manager
         {
             if (Directory.Exists(Reference.pallette_path))
                 Process.Start("explorer.exe", Reference.pallette_path);
+        }
+
+        private void Main_GotFocus(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
         }
     }
 }

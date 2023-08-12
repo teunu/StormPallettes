@@ -56,29 +56,37 @@ namespace Stormworks_Pallettes_Manager
 
             XmlAttributeCollection collection = doc.ChildNodes[1].Attributes;
 
-            string flagm = collection["flags"].Value;
-            int flag_int;
-
-            if (Int32.TryParse(flagm, out flag_int))
+            try
             {
-                if (visible)
-                    flag_int &= ~(1 << 29); //Set bit index 29 to 0 or "Not Deprecated"
-                else
-                    flag_int |= 1 << 29; //Set bit index 29 to 1 or "Deprecated"
+                string flagm = collection["flags"].Value;
+
+                int flag_int;
+
+                if (Int32.TryParse(flagm, out flag_int))
+                {
+                    if (visible)
+                        flag_int &= ~(1 << 29); //Set bit index 29 to 0 or "Not Deprecated"
+                    else
+                        flag_int |= 1 << 29; //Set bit index 29 to 1 or "Deprecated"
+                }
+
+                string new_flag = flag_int.ToString();
+
+                //Devs likely concatonated their xml definitions, because it doesn't follow rules. I can spend time making a parser, or we can do it their route and concatenate myself.
+                string old_s = $"flags=\"{flagm}\"";
+                string new_s = $"flags=\"{new_flag}\"";
+                string replace = parts[1].Replace(old_s, new_s);
+                parts[1] = replace;
+
+                string full = "";
+                foreach (string part in parts) { full += part + "\n"; }
+
+                File.WriteAllText(file_ref, full);
             }
+            catch
+            {
 
-            string new_flag = flag_int.ToString();
-
-            //Devs likely concatonated their xml definitions, because it doesn't follow rules. I can spend time making a parser, or we can do it their route and concatenate myself.
-            string old_s = $"flags=\"{flagm}\"";
-            string new_s = $"flags=\"{new_flag}\"";
-            string replace = parts[1].Replace(old_s, new_s);
-            parts[1] = replace;
-
-            string full= "";
-            foreach(string part in parts) { full += part + "\n"; }
-
-            File.WriteAllText(file_ref, full);
+            }
         }
     }
 }

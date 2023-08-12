@@ -9,7 +9,7 @@
     <Grid>
         <TextBlock x:Name="display" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" Margin="10,10,10,26"><Run Language="en-gb" Text="No Categories were found in your pallettes folder, do you want to automatically add the default pallettes?"/></TextBlock>
         <Button x:Name="decline" Content="No, I'll add them myself" HorizontalAlignment="Left" Height="30" Margin="44,80,0,0" VerticalAlignment="Top" Width="172" Click="decline_Click"/>
-        <Button x:Name="accept" Content="Yes, please add" HorizontalAlignment="Left" Height="30" Margin="244,80,0,0" VerticalAlignment="Top" Width="172" Click="Button_Click"/>
+        <Button x:Name="accept" Content="Yes, please add" HorizontalAlignment="Left" Height="30" Margin="244,80,0,0" VerticalAlignment="Top" Width="172" Click="accept_Click"/>
 
     </Grid>
 </Window>

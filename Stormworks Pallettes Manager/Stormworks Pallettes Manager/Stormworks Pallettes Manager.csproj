@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <RootNamespace>Stormworks_Pallettes_Manager</RootNamespace>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>True</UseWindowsForms>
+    <ApplicationIcon>resources\icons\swpallettes.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,10 @@
     <None Remove="resources\icons\eye.png" />
     <None Remove="resources\icons\pencil.png" />
     <None Remove="resources\icons\stormpalettes.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="resources\icons\swpallettes.ico" />
   </ItemGroup>
 
   <ItemGroup>

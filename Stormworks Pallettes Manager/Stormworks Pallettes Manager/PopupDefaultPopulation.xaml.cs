@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,7 +32,7 @@ namespace Stormworks_Pallettes_Manager
             this.Close();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void accept_Click(object sender, RoutedEventArgs e)
         {
             //Add defaults
             PalletteCategory depr = DefaultPallettes.deprecated;
@@ -40,7 +41,8 @@ namespace Stormworks_Pallettes_Manager
             PalletteCategory weap = DefaultPallettes.weapons_dlc;
             PalletteCategory.Save(weap, weap.def_name);
 
-            MainWindow.instance.RefreshView();
+            //Refresh data
+            MainWindow.instance.RefreshData();
 
             //Close tab
             this.Close();
