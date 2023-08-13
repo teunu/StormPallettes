@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Stormworks_Pallettes_Manager
 {
@@ -43,20 +45,26 @@ namespace Stormworks_Pallettes_Manager
         public delegate void ChangeCategory();
         public ChangeCategory OnCategoryChanged;
 
-        public void ToggleCategoryVisibility()
+        public async void ToggleCategoryVisibility()
         {
+            Cursor.Current = Cursors.WaitCursor;
             visible = !visible;
             OnCategoryChanged?.Invoke();
 
-            Save(this, def_name);
+            await Save(this, def_name);
+            MainWindow.instance.RefreshData();
+            Cursor.Current = Cursors.Default;
         }
 
-        public void SetCategoryVisibility(bool set)
+        public async void SetCategoryVisibility(bool set)
         {
+            Cursor.Current = Cursors.WaitCursor;
             visible = set;
             OnCategoryChanged?.Invoke();
 
-            Save(this, def_name);
+            await Save(this, def_name);
+            MainWindow.instance.RefreshData();
+            Cursor.Current = Cursors.Default;
         }
 
         public bool MatchAny(string file) { return MatchPrefix(file) || MatchContents(file) || MatchExplicit(file); }
@@ -69,7 +77,7 @@ namespace Stormworks_Pallettes_Manager
 
         #region Serialisation
 
-        public static void Save(PalletteCategory data, string save_name)
+        public static async Task Save(PalletteCategory data, string save_name)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(PCSerializeWrapper));
             if (save_name == null)
@@ -78,6 +86,8 @@ namespace Stormworks_Pallettes_Manager
             //Create a file if it's empty. I guess kinda cursed to create-open-close-open-write-close, but I'm in a rush and this works well enough.
             if (!File.Exists(Reference.pallette_path + @"\" + save_name + ".xml"))
             {
+                if (!Directory.Exists(Reference.pallette_path))
+                    Directory.CreateDirectory(Reference.pallette_path);
                 FileStream f = File.Create(Reference.pallette_path + @"\" + save_name + ".xml");
                 f.Close();
             }

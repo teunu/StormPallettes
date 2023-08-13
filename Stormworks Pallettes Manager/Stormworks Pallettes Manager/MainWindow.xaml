@@ -22,8 +22,8 @@
             </Menu>
         </DockPanel>
 
-        <ScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0" MinHeight="120" MaxHeight="600" Foreground="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}">
-            <StackPanel x:Name="ViewerContainer" VerticalAlignment="Top" MinHeight="120" MaxHeight="600" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <ScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0" MinHeight="120" MaxHeight="600">
+            <StackPanel x:Name="ViewerContainer" VerticalAlignment="Top" MinHeight="120" MaxHeight="600"/>
         </ScrollViewer>
     </Grid>
 </Window>
