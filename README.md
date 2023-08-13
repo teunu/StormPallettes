@@ -10,3 +10,6 @@ Hide/unhide the pallette of your choosing and reload your save file in-game (you
 <h2>Creating your own categories/ Pallettes</h2>
 You can copy any .xml in the categories folder (program > open category folder) and set your own category. You'll be able to sort <b>Explicitly</b>(by specified file name, mind to include .xml at the end), <b>by Prefix</b>, and <b>by Contents of the file name</b>
 if you've made a mod and want to include a pallette file for your mod users, you can zip your mod's pallettes together with your mod file, and it should work for your users. Please include an author name when you distribute your pallettes.
+
+<h2> How to Use </h2>
+https://youtu.be/wu7IbGl0ZkY
